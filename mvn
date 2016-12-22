@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+local_etc="$HOME/.local/etc"
+local_mvn_etc=$local_etc/maven
+settings=$(ls $local_mvn_etc)
+
+name=$1
+names=""
+index=0
+for setting in $settings; do
+    setting_name="$(echo "$setting" | sed 's/\.xml$//')"
+    if [ $index -eq 0 ]; then
+	names=$setting_name
+    else
+	names="$names $setting_name"
+    fi
+    if [ $setting_name == $name ]; then
+	shift 1
+	/usr/local/bin/mvn -s $local_mvn_etc/$name.xml $@
+	exit 0
+    fi
+    index=`expr $index + 1`
+done
+
+if [ -z $name ]; then
+    echo "使用方法: mvn 配置类型 原生参数"
+    echo "可以配置: [$names]"
+    echo "mvn -h 获得原生帮助"
+else
+    /usr/local/bin/mvn $@
+fi

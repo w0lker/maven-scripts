@@ -1,0 +1,33 @@
+#!/bin/bash
+
+local_etc="$HOME/.local/etc"
+local_mvn_etc=$local_etc/maven
+settings=$(ls $local_mvn_etc)
+
+name=$1
+names=""
+index=0
+for setting in $settings; do
+    setting_name="$(echo "$setting" | sed 's/\.xml$//')"
+    if [ $index -eq 0 ]; then
+	names=$setting_name
+    else
+	names="$names $setting_name"
+    fi
+    index=`expr $index + 1`
+done
+
+_mvn() {
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    case "$cur" in
+	*)
+	    if [[ 1 -eq $COMP_CWORD ]]; then
+		COMPREPLY=( $(compgen -W "$names" -- ${cur} ) )
+	    fi
+	    ;;
+    esac
+}
+complete -F _mvn mvn
