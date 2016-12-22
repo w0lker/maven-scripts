@@ -22,3 +22,6 @@ echo "secoo.xml" | gawk 'match($0, /^(.*+?)\.xml/,gs) {print gs[1]}'
 
 ** 总结
 其实我想找一个shell的函数，能达到类似python中的str("secoo.xml")[0:-4]的效果，可以还没有找到。
+
+
+
