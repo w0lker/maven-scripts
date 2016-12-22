@@ -1,0 +1,7 @@
+* mvn命令扩展
+
+将 mvn 的settings.xml 文件放到.local/etc/maven下，并且取一个特别的名字如 xxx.xml
+
+则启动 mvn 补全会自动提示 xxx 
+
+使用 mvn xxx package 则相对于使用 mvn -s .local/etc/maven/xxx.xml package
